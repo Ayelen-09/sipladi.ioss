@@ -1,0 +1,22 @@
+workflows:
+  ios-workflow:
+    name: iOS Build sin firma
+    environment:
+      vars:
+        XCODE_PROJECT: "TuApp.xcodeproj"
+        XCODE_SCHEME: "TuApp"
+        XCODE_WORKSPACE: ""
+    scripts:
+      - name: Instalando dependencias
+        script: |
+          gem install cocoapods
+          pod install
+      - name: Compilando el proyecto
+        script: |
+          xcodebuild -project $XCODE_PROJECT \
+                     -scheme $XCODE_SCHEME \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     clean build
+    artifacts:
+      - build/Release-iphoneos/*.app
